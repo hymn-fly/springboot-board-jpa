@@ -50,4 +50,9 @@ public class Post extends BaseEntity {
         return new Post(title, content, writer);
     }
 
+    public Post withId(Long id){
+        this.id = id;
+        return this;
+    }
+
 }
