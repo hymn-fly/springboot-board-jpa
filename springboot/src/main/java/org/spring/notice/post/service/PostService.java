@@ -2,6 +2,7 @@ package org.spring.notice.post.service;
 
 import org.spring.notice.domain.post.Post;
 import org.spring.notice.domain.post.PostRepository;
+import org.spring.notice.domain.user.UserRepository;
 import org.spring.notice.post.controller.Converter;
 import org.spring.notice.post.controller.dto.PostDto;
 import org.springframework.data.domain.Page;
@@ -16,10 +17,13 @@ import java.util.Optional;
 public class PostService {
     private final PostRepository postRepository;
 
+    private final UserRepository userRepository;
+
     private final Converter converter;
 
-    public PostService(PostRepository postRepository, Converter converter) {
+    public PostService(PostRepository postRepository, UserRepository userRepository, Converter converter) {
         this.postRepository = postRepository;
+        this.userRepository = userRepository;
         this.converter = converter;
     }
 
@@ -36,6 +40,8 @@ public class PostService {
     }
 
     public PostDto writePost(PostDto postDto){
+        userRepository.save(converter.userDtoToUser(postDto.getWriterDto()));
+
         Post save = postRepository.save(converter.postDtoToPost(postDto));
 
         return converter.postToPostDto(save);
