@@ -16,8 +16,4 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
     Page<Post> findAll(Pageable pageable);
 
-    // 테스트 수행 시 sequence reset 용 쿼리
-    @Query(value="ALTER SEQUENCE hibernate_sequence RESTART WITH 1", nativeQuery = true)
-    @Modifying
-    void resetSequence();
 }

@@ -32,16 +32,21 @@ class PostServiceTest {
     @Autowired
     PostRepository postRepository;
 
+    private Post post1;
+    private Post post2;
+    private Post post3;
+    private Post post4;
+    private Post post5;
+
     @BeforeEach
     void setup(){
-        postRepository.resetSequence();
         User savedUser = userRepository.save(getUser());
 
-        Post post1 = Post.write("테스트1", "테스트 내용", savedUser);
-        Post post2 = Post.write("테스트2", "테스트 내용2", savedUser);
-        Post post3 = Post.write("테스트3", "테스트 내용3", savedUser);
-        Post post4 = Post.write("테스트1", "블라블라블라", savedUser);
-        Post post5 = Post.write("테스트2", "오오홍", savedUser);
+        post1 = Post.write("테스트1", "테스트 내용", savedUser);
+        post2 = Post.write("테스트2", "테스트 내용2", savedUser);
+        post3 = Post.write("테스트3", "테스트 내용3", savedUser);
+        post4 = Post.write("테스트1", "블라블라블라", savedUser);
+        post5 = Post.write("테스트2", "오오홍", savedUser);
 
         postRepository.saveAll(List.of(post1, post2, post3, post4, post5));
     }
@@ -65,7 +70,7 @@ class PostServiceTest {
     void id로_포스팅조회_테스트() {
         //Given
         // When
-        PostDto post = postService.getPost(1L);
+        PostDto post = postService.getPost(post1.getId());
 
         // Then
         assertThat(post.getTitle()).isEqualTo("테스트1");
