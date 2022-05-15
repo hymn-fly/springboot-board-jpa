@@ -16,8 +16,8 @@ public class ApiResponse<T> {
         return new ApiResponse<>(200, data);
     }
 
-    public static <T> ApiResponse<T> fail(int statusCode){
-        return new ApiResponse<>(statusCode, null);
+    public static <T> ApiResponse<T> fail(int statusCode, T data){
+        return new ApiResponse<>(statusCode, data);
     }
 
     private ApiResponse(int statusCode, T data){

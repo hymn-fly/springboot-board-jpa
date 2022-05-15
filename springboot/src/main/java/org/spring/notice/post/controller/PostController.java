@@ -5,12 +5,11 @@ import org.spring.notice.post.controller.dto.PostDto;
 import org.spring.notice.post.service.PostService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestController
 public class PostController {
@@ -18,6 +17,11 @@ public class PostController {
 
     public PostController(PostService postService) {
         this.postService = postService;
+    }
+
+    @ExceptionHandler(value = NoSuchElementException.class)
+    public ApiResponse<String> noSuchElementException(NoSuchElementException e){
+        return ApiResponse.fail(HttpStatus.BAD_REQUEST.value(), e.getMessage());
     }
 
     @GetMapping("/posts")
@@ -32,12 +36,12 @@ public class PostController {
     }
 
     @PostMapping("/posts")
-    public ApiResponse<PostDto> writePost(PostDto postDto){
+    public ApiResponse<PostDto> writePost(@RequestBody PostDto postDto){
         return ApiResponse.ok(postService.writePost(postDto));
     }
 
     @PostMapping("/posts/{id}")
-    public ApiResponse<PostDto> updatePost(@PathVariable Long id, PostDto postDto){
+    public ApiResponse<PostDto> updatePost(@PathVariable Long id, @RequestBody PostDto postDto){
         return ApiResponse.ok(postService.updatePost(id, postDto));
     }
 }
