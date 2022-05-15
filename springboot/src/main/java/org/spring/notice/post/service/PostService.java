@@ -2,6 +2,7 @@ package org.spring.notice.post.service;
 
 import org.spring.notice.domain.post.Post;
 import org.spring.notice.domain.post.PostRepository;
+import org.spring.notice.domain.user.User;
 import org.spring.notice.domain.user.UserRepository;
 import org.spring.notice.post.controller.Converter;
 import org.spring.notice.post.controller.dto.PostDto;
@@ -40,9 +41,9 @@ public class PostService {
     }
 
     public PostDto writePost(PostDto postDto){
-        userRepository.save(converter.userDtoToUser(postDto.getWriterDto()));
+        User writer = userRepository.save(converter.userDtoToUser(postDto.getWriterDto()));
 
-        Post save = postRepository.save(converter.postDtoToPost(postDto));
+        Post save = postRepository.save(converter.postDtoToPost(postDto).withWriter(writer));
 
         return converter.postToPostDto(save);
     }

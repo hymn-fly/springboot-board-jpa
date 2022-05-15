@@ -55,4 +55,9 @@ public class Post extends BaseEntity {
         return this;
     }
 
+    public Post withWriter(User writer){
+        this.writer = writer;
+        return this;
+    }
+
 }
