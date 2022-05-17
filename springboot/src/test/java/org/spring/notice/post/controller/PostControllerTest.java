@@ -8,6 +8,7 @@ import org.spring.notice.post.controller.dto.PostDto;
 import org.spring.notice.post.controller.dto.UserDto;
 import org.spring.notice.post.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
@@ -23,6 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@AutoConfigureRestDocs
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class PostControllerTest {
@@ -88,7 +90,20 @@ class PostControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data[0].title").value(postDto.getTitle()))
                 .andExpect(jsonPath("$.data[1].title").value(postDto2.getTitle()))
-                .andDo(print());
+                .andDo(print())
+//                .andDo(document("post-search",
+//                        responseFields(
+//                                fieldWithPath("statusCode").type(JsonFieldType.NUMBER).description("상태 코드"),
+//                                fieldWithPath("data[]").type(JsonFieldType.ARRAY).description("데이터"),
+//                                fieldWithPath("data[].title").type(JsonFieldType.STRING).description("제목"),
+//                                fieldWithPath("data[].content").type(JsonFieldType.STRING).description("본문"),
+//                                fieldWithPath("data[].writerDto.uuid").type(JsonFieldType.STRING).description("작성자 id"),
+//                                fieldWithPath("data[].writerDto.name").type(JsonFieldType.STRING).description("작성자 이름"),
+//                                fieldWithPath("data[].writerDto.age").type(JsonFieldType.NUMBER).description("작성자 나이"),
+//                                fieldWithPath("data[].writerDto.hobby").type(JsonFieldType.STRING).description("작성자 취미")
+//                        )
+//                ))
+        ;
     }
 
     @Test
